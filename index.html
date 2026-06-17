@@ -1,185 +1,80 @@
-<!-- fake_youtube.html -->
+<!-- index.html (Fake YouTube Page) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mysterious Video - YouTube</title>
+    <title>Mysterious Signal - YouTube</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: #0f0f0f;
-            font-family: 'Roboto', Arial, sans-serif;
-            color: #fff;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0f0f0f; font-family: 'Roboto', Arial, sans-serif; color: #fff; }
         /* Header */
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            height: 56px;
-            background: #0f0f0f;
-            border-bottom: 1px solid #303030;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px; height: 56px; background: #0f0f0f;
+            border-bottom: 1px solid #303030; position: sticky; top: 0; z-index: 10;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .menu-icon {
-            font-size: 20px;
-            cursor: pointer;
-        }
-        .logo {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ff0000;
-            letter-spacing: -1px;
-        }
-        .search-bar {
-            display: flex;
-            align-items: center;
-            max-width: 600px;
-            width: 100%;
-            margin: 0 40px;
-        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .menu-icon { font-size: 20px; cursor: pointer; }
+        .logo { font-size: 22px; font-weight: 700; color: #ff0000; letter-spacing: -1px; }
+        .search-bar { display: flex; align-items: center; max-width: 600px; width: 100%; margin: 0 40px; }
         .search-bar input {
-            flex: 1;
-            padding: 8px 12px;
-            background: #121212;
-            border: 1px solid #303030;
-            border-radius: 20px 0 0 20px;
-            color: #fff;
-            outline: none;
+            flex: 1; padding: 8px 12px; background: #121212;
+            border: 1px solid #303030; border-radius: 20px 0 0 20px; color: #fff; outline: none;
         }
         .search-bar button {
-            padding: 8px 16px;
-            background: #222;
-            border: 1px solid #303030;
-            border-left: none;
-            border-radius: 0 20px 20px 0;
-            cursor: pointer;
-            color: #fff;
+            padding: 8px 16px; background: #222; border: 1px solid #303030;
+            border-left: none; border-radius: 0 20px 20px 0; cursor: pointer; color: #fff;
         }
-        .header-right {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-        .icon {
-            font-size: 20px;
-            cursor: pointer;
-        }
+        .header-right { display: flex; gap: 16px; align-items: center; }
+        .icon { font-size: 20px; cursor: pointer; }
         /* Layout */
-        .container {
-            display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            gap: 20px;
+        .container { display: flex; max-width: 1400px; margin: 0 auto; padding: 20px; gap: 20px; }
+        .main-video { flex: 1; max-width: 900px; }
+        .sidebar { width: 360px; flex-shrink: 0; }
+        /* Video player wrapper */
+        .player-wrapper {
+            position: relative; background: #000; border-radius: 12px; overflow: hidden;
+            margin-bottom: 12px; aspect-ratio: 16/9;
         }
-        .main-video {
-            flex: 1;
-            max-width: 900px;
+        .player-wrapper iframe {
+            width: 100%; height: 100%; display: block; border: none;
         }
-        .sidebar {
-            width: 360px;
-            flex-shrink: 0;
+        /* Subtitle overlay */
+        .caption-overlay {
+            position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8); color: #fff; font-size: 18px;
+            padding: 8px 16px; border-radius: 4px; pointer-events: auto;
+            display: none; white-space: nowrap; max-width: 90%; text-align: center;
         }
-        /* Video player */
-        .video-player {
-            position: relative;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-        video {
-            width: 100%;
-            display: block;
-            background: #000;
-        }
+        .caption-overlay a { color: #3ea6ff; text-decoration: underline; }
         /* Video info */
-        .video-info h1 {
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-        .video-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            color: #aaa;
-            font-size: 14px;
-        }
-        .channel-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .channel-avatar {
-            width: 40px;
-            height: 40px;
-            background: #555;
-            border-radius: 50%;
-        }
+        .video-info h1 { font-size: 20px; margin-bottom: 8px; }
+        .video-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: #aaa; font-size: 14px; }
+        .channel-info { display: flex; align-items: center; gap: 12px; }
+        .channel-avatar { width: 40px; height: 40px; background: #555; border-radius: 50%; }
         .subscribe-btn {
-            padding: 8px 16px;
-            background: #cc0000;
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
+            padding: 8px 16px; background: #cc0000; color: #fff;
+            border: none; border-radius: 20px; cursor: pointer; font-weight: 500;
         }
-        /* Sidebar thumbnails */
+        /* Caption hint */
+        .caption-hint {
+            margin-top: 10px; background: #272727; padding: 8px 12px;
+            border-radius: 8px; font-size: 14px; color: #aaa;
+        }
+        .caption-hint span { color: #3ea6ff; cursor: pointer; }
+        /* Sidebar */
         .thumbnail {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-            cursor: pointer;
+            display: flex; gap: 8px; margin-bottom: 12px; cursor: pointer;
         }
         .thumbnail img {
-            width: 168px;
-            height: 94px;
-            border-radius: 8px;
-            background: #333;
-            object-fit: cover;
+            width: 168px; height: 94px; border-radius: 8px; background: #333; object-fit: cover;
         }
-        .thumbnail-info {
-            font-size: 13px;
-            color: #aaa;
-        }
-        .thumbnail-info h3 {
-            font-size: 15px;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-        /* Captions button */
-        .caption-hint {
-            margin-top: 10px;
-            background: #272727;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #aaa;
-        }
-        .caption-hint span {
-            color: #3ea6ff;
-            cursor: pointer;
-        }
+        .thumbnail-info { font-size: 13px; color: #aaa; }
+        .thumbnail-info h3 { font-size: 15px; color: #fff; margin-bottom: 4px; }
     </style>
 </head>
 <body>
-    <!-- Fake YouTube Header -->
     <div class="header">
         <div class="header-left">
             <div class="menu-icon">☰</div>
@@ -197,13 +92,10 @@
     </div>
 
     <div class="container">
-        <!-- Main Video Section -->
         <div class="main-video">
-            <div class="video-player">
-                <video id="myVideo" controls loop playsinline>
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                    <track id="subTrack" kind="subtitles" srclang="en" label="English" default>
-                </video>
+            <div class="player-wrapper" id="playerContainer">
+                <div id="ytPlayer"></div>
+                <div class="caption-overlay" id="captionOverlay"></div>
             </div>
             <div class="video-info">
                 <h1>[CLASSIFIED] Signal Intercept #7734</h1>
@@ -223,8 +115,6 @@
                 💬 <span onclick="toggleCaptions()">Turn on subtitles</span> to reveal the hidden message...
             </div>
         </div>
-
-        <!-- Sidebar with fake related videos -->
         <div class="sidebar">
             <div class="thumbnail">
                 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='94'%3E%3Crect width='168' height='94' fill='%23333'/%3E%3Ctext x='84' y='52' text-anchor='middle' fill='%23888' font-size='14'%3EEncrypted%3C/text%3E%3C/svg%3E" alt="">
@@ -246,51 +136,104 @@
     </div>
 
     <script>
-        const video = document.getElementById('myVideo');
-        const track = document.getElementById('subTrack');
+        // YouTube IFrame API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // WebVTT content with Morse code and the hidden link
-        const vttContent = `WEBVTT
+        var player;
+        var captionsEnabled = false;
+        var currentCaption = '';
+        var captionOverlay = document.getElementById('captionOverlay');
 
-00:00:00.000 --> 00:00:10.000
--.-- --- ..- / .-- .- ... -. - / ... ..- .--. .--. --- ... . -.. / - --- / ..-. .. -. -.. / --- ..- - .-.-.-
-
-00:00:10.000 --> 00:00:20.000
-.-- .... -.-- / .- .-. . / -.-- --- ..- / .... . .-. . ..--..
-
-00:00:20.000 --> 00:00:25.000
-.. - .... --- ..- --. .... - / .. / .... .. -.. / .. - / .-- . .-.. .-..
-
-00:00:25.000 --> 00:00:35.000
-<a href='puzzle2.html'>Next puzzle</a>
-`;
-
-        // Create blob and assign to track
-        const blob = new Blob([vttContent], { type: 'text/vtt' });
-        const url = URL.createObjectURL(blob);
-        track.src = url;
-
-        // Enable subtitles after user interacts (click the hint)
-        function toggleCaptions() {
-            if (video.paused) {
-                video.play().then(() => {
-                    track.mode = 'showing';
-                }).catch(e => console.log("Autoplay prevented"));
-            } else {
-                track.mode = (track.mode === 'showing') ? 'hidden' : 'showing';
+        // Define caption cues (times in seconds, text is Morse code)
+        var captions = [
+            {
+                start: 0,
+                end: 10,
+                text: "-.-- --- ..- / .-- .- ... -. - / ... ..- .--. .--. --- ... . -.. / - --- / ..-. .. -. -.. / --- ..- - .-.-.-"
+            },
+            {
+                start: 10,
+                end: 20,
+                text: ".-- .... -.-- / .- .-. . / -.-- --- ..- / .... . .-. . ..--.."
+            },
+            {
+                start: 20,
+                end: 25,
+                text: ".. - .... --- ..- --. .... - / .. / .... .. -.. / .. - / .-- . .-.. .-.. / .-.-.-"
+            },
+            {
+                start: 25,
+                end: 9999,
+                text: "<a href='puzzle2.html' style='color:#3ea6ff;'>Next puzzle</a>"
             }
-            // Ensure track is active
-            if (track.mode !== 'showing') {
-                track.mode = 'showing';
+        ];
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('ytPlayer', {
+                height: '100%',
+                width: '100%',
+                videoId: 'mXTYvRf3qew',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 1,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'fs': 1,
+                    'iv_load_policy': 3,
+                    'cc_load_policy': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Start updating caption display on time update
+            setInterval(updateCaption, 250);
+        }
+
+        function onPlayerStateChange(event) {
+            // Optional
+        }
+
+        function updateCaption() {
+            if (!captionsEnabled || !player || !player.getCurrentTime) return;
+            var currentTime = player.getCurrentTime();
+            var captionText = '';
+            for (var i = 0; i < captions.length; i++) {
+                var cue = captions[i];
+                if (currentTime >= cue.start && currentTime < cue.end) {
+                    captionText = cue.text;
+                    break;
+                }
+            }
+            if (captionText !== currentCaption) {
+                currentCaption = captionText;
+                if (captionText) {
+                    captionOverlay.innerHTML = captionText;
+                    captionOverlay.style.display = 'block';
+                } else {
+                    captionOverlay.style.display = 'none';
+                }
             }
         }
 
-        // Also enable when user clicks play
-        video.addEventListener('play', () => {
-            if (track.mode !== 'showing') {
-                track.mode = 'showing';
+        function toggleCaptions() {
+            captionsEnabled = !captionsEnabled;
+            if (!captionsEnabled) {
+                captionOverlay.style.display = 'none';
+                currentCaption = '';
+            } else {
+                // Immediately update
+                updateCaption();
             }
-        });
+        }
     </script>
 </body>
 </html>
